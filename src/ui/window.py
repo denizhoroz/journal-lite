@@ -30,6 +30,7 @@ class MainWindow(QMainWindow):
 
         # Initialize UI
         self._build_ui()
+        self._apply_styling()
         self._connect_signals()
 
     def _build_ui(self):
@@ -68,11 +69,12 @@ class MainWindow(QMainWindow):
         entry_layout = QVBoxLayout()
 
         # Add widgets
-        self.current_day = QLabel("11 February 2026")
+        self.current_day = QLabel() 
+        self.current_day.setText("11 February 2026") # testing
         entry_layout.addWidget(self.current_day)
 
         self.entry_edit = QPlainTextEdit()
-        self.entry_edit.setPlaceholderText("Write anything here...")
+        self.entry_edit.setPlaceholderText("Write anything here...") # testing
         entry_layout.addWidget(self.entry_edit)
         
         # Add layout 
@@ -98,10 +100,18 @@ class MainWindow(QMainWindow):
         # Add layout 
         time_area.setLayout(time_layout)
         main_layout.addWidget(time_area)
-        
 
         ####
 
+    def _apply_styling(self):
+        stylesheet = self._load_stylesheet("src/ui/style.qss")
+        self.setStyleSheet(stylesheet)
+
+    def _load_stylesheet(self, path):
+        with open(path, "r") as f:
+            return f.read()
 
     def _connect_signals(self):
         pass
+    
+
