@@ -23,6 +23,7 @@ from PySide6.QtGui import (
 
 from PySide6.QtCore import (
     QDate,
+    QTimer,
 )
 
 from src.ui.popup_windows import (
@@ -32,15 +33,14 @@ from src.ui.popup_windows import (
 ) 
 
 class MainWindow(QMainWindow):
-
-    
-
     def __init__(self, core):
         super().__init__()
         self.core = core
 
         self.DEFAULT_TAB = "General"
         self.is_autosaving = True
+        self.save_timer = QTimer()
+        self.save_timer.setSingleShot(True)
 
         # Set window settings
         self.setWindowTitle("Journal Lite")
@@ -190,6 +190,7 @@ class MainWindow(QMainWindow):
         self.tabs.currentItemChanged.connect(self._on_tab_changed)
         self.add_event_button.clicked.connect(self._on_add_event_clicked)
         self.del_event_button.clicked.connect(self._on_del_event_clicked)
+        self.save_timer.timeout.connect(self._on_save_timer_timeout)
 
     def _on_date_changed(self):
         # Block tab change signals
@@ -234,10 +235,13 @@ class MainWindow(QMainWindow):
         self.is_autosaving = checked
         self.push_entry_button.setEnabled(not self.is_autosaving)
 
+    def _on_save_timer_timeout(self):
+        self.core.add_entry(*self._get_entry())
+
     def _on_entry_edit_changed(self): 
         if not self.is_autosaving: return
-        print("Autosaving is not working right this moment") # testing
-        # self.core.add_entry(*self._get_entry())
+        self.save_timer.start(1000)
+        # print("Autosaving is not working right this moment") # testing
 
     def _on_add_tab_clicked(self):
         dialog = AddItem()
