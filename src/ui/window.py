@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (
         QPushButton,
         QCheckBox,
         QSizePolicy,
+        QFrame,
 )
 
 from PySide6.QtGui import (
@@ -66,7 +67,15 @@ class MainWindow(QMainWindow):
         
         # Add widgets
         self.title = QLabel("Journal Lite")
+        self.title.setObjectName("TitleLabel")
         nav_layout.addWidget(self.title)
+
+        nav_line = QFrame()
+        nav_line.setObjectName("SpacerLine")
+        nav_line.setFrameShape(QFrame.Shape.HLine)
+        nav_line.setFrameShadow(QFrame.Shadow.Sunken)
+        nav_line.setFixedHeight(2)
+        nav_layout.addWidget(nav_line)
 
         self.tabs = QListWidget()
         self.tabs.setCurrentRow(0)
@@ -94,6 +103,13 @@ class MainWindow(QMainWindow):
         self.current_day_label = QLabel() 
         # self.current_day.setText("11 February 2026") # testing
         entry_layout.addWidget(self.current_day_label)
+
+        entry_line = QFrame()
+        entry_line.setObjectName("SpacerLine")
+        entry_line.setFrameShape(QFrame.Shape.HLine)
+        entry_line.setFrameShadow(QFrame.Shadow.Sunken)
+        entry_line.setFixedHeight(2)
+        entry_layout.addWidget(entry_line)
 
         self.entry_edit = QPlainTextEdit()
         self.entry_edit.setPlaceholderText("Write anything here...")
