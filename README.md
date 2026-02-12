@@ -27,3 +27,16 @@ Pure Python with a clean and minimal structure.
 
 🐍 **Python-Only**  
 Developed entirely in Python for easy customization and cross-platform support.
+
+## ⬇️ Download
+
+You can download the latest ready-to-use version of Journal-Lite from the **Releases** section of this repository.
+
+👉 Go to:  
+**GitHub → journal-lite → Releases**
+
+Download the latest version for your system and run the executable.
+
+If you prefer running from source, follow the installation steps below.
+
+---
