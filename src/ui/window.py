@@ -22,7 +22,11 @@ from PySide6.QtCore import (
     QDate,
 )
 
-from src.ui.popup_window import RemoveItem, DeleteItemWarning
+from src.ui.popup_windows import (
+    AddItem,
+    RemoveItem, 
+    DeleteItemWarning,
+) 
 
 class MainWindow(QMainWindow):
 
@@ -65,7 +69,7 @@ class MainWindow(QMainWindow):
         nav_layout.addWidget(self.title)
 
         self.tabs = QListWidget()
-        self.tabs.addItems(["General", "another tab"])
+        self.tabs.addItems(["General"])
         self.tabs.setCurrentRow(0)
         nav_layout.addWidget(self.tabs)
 
@@ -183,7 +187,13 @@ class MainWindow(QMainWindow):
         # self.core.add_entry(*self._get_entry())
 
     def _on_add_tab_clicked(self):
-        pass
+        dialog = AddItem()
+        result = dialog.exec_()
+
+        if result:
+            self._add_item(self.tabs, result)
+        else:
+            return
 
     def _on_del_tab_clicked(self):
         selected_item = self.tabs.currentItem()
@@ -199,5 +209,5 @@ class MainWindow(QMainWindow):
             else:
                 return
 
-    def _remove_item(self, list, selected_item):
-        list.takeItem(self.tabs.row(selected_item))
+    def _remove_item(self, list, selected_item): list.takeItem(list.row(selected_item))
+    def _add_item(self, list, tab_name: str): list.addItem(tab_name)
