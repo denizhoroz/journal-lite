@@ -146,6 +146,7 @@ class MainWindow(QMainWindow):
         self.current_day_label.setText(self.calendar.selectedDate().toString())
         self.push_entry_button.setEnabled(False)
         self.autosave_option.setChecked(True)
+        self._on_date_changed()
 
     def _apply_styling(self):
         stylesheet = self._load_stylesheet("src/ui/style.qss")
@@ -162,14 +163,40 @@ class MainWindow(QMainWindow):
         self.entry_edit.textChanged.connect(self._on_entry_edit_changed)
         self.add_tab_button.clicked.connect(self._on_add_tab_clicked)
         self.del_tab_button.clicked.connect(self._on_del_tab_clicked)
+        self.tabs.currentItemChanged.connect(self._on_tab_changed)
 
     def _on_date_changed(self):
+        # Block tab change signals
+        self.tabs.blockSignals(True)
+
+        selected_date = self.calendar.selectedDate().toString()
+
         # Change date label
-        self.current_day_label.setText(self.calendar.selectedDate().toString())
+        self.current_day_label.setText(selected_date)
 
         # Change date entry
-        current_entry = self.core.get_entry(self._get_calendar_date(), self.DEFAULT_TAB)
-        self.entry_edit.setPlainText(current_entry)
+        # current_entry = self.core.get_entry_by_tab(self._get_calendar_date(), self.DEFAULT_TAB)
+        # if type(current_entry) == str:
+        #     self.entry_edit.setPlainText(current_entry)
+        # else:
+        #     self.entry_edit.setPlainText(current_entry.entry)
+
+        # Update tabs
+        self.tabs.clear()
+        all_entries = self.core.get_all_entries_by_date(self._get_calendar_date())
+        for entry in all_entries:
+            self._add_item(self.tabs, entry.tab_name)
+
+        # If no general tab add it
+        if len(all_entries) == 0:
+            self._add_item(self.tabs, self.DEFAULT_TAB)
+
+        self.tabs.setCurrentRow(0)
+
+        # Unblock tab change signals
+        self.tabs.blockSignals(False)
+        self._on_tab_changed()
+        
 
     def _on_entry_button_clicked(self): self.core.add_entry(*self._get_entry())
     def _get_calendar_date(self): return self.calendar.selectedDate().toPython()
@@ -191,7 +218,8 @@ class MainWindow(QMainWindow):
         result = dialog.exec_()
 
         if result:
-            self._add_item(self.tabs, result)
+            tab_name = result
+            self._add_item(self.tabs, tab_name)
         else:
             return
 
@@ -205,9 +233,18 @@ class MainWindow(QMainWindow):
             popup = RemoveItem()
             result = popup.exec_()
             if result:
+                self.core.delete_tab(self._get_calendar_date(), self._get_selected_tab())
                 self._remove_item(self.tabs, selected_item)
             else:
                 return
 
     def _remove_item(self, list, selected_item): list.takeItem(list.row(selected_item))
     def _add_item(self, list, tab_name: str): list.addItem(tab_name)
+
+    def _on_tab_changed(self):
+        # Change tab entry
+        current_entry = self.core.get_entry_by_tab(self._get_calendar_date(), self._get_selected_tab())
+        if current_entry == "":
+            self.entry_edit.setPlainText(current_entry)
+        else:
+            self.entry_edit.setPlainText(current_entry.entry)

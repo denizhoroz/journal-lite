@@ -30,7 +30,7 @@ class Repository:
 
             session.commit()
 
-    def get_entry(self, entry_date, tab_name: str):
+    def get_entry_by_tab(self, entry_date, tab_name: str):
         with SessionLocal() as session:
             return (
                 session.query(JournalEntry)
@@ -40,6 +40,16 @@ class Repository:
                 )
                 .first()
             )
+        
+    def get_all_entries_by_date(self, entry_date):
+        with SessionLocal() as session:
+            return (
+                session.query(JournalEntry)
+                .filter(
+                    JournalEntry.date == entry_date
+                )
+                .all()
+            )
 
     def delete_entry(self, entry_id: int):
         with SessionLocal() as session:
@@ -48,11 +58,19 @@ class Repository:
                 session.delete(entry)
                 session.commit()
 
-    def delete_tab():
-        pass
-
-    def delete_date():
-        pass
+    def delete_tab(self, entry_date, tab_name):
+        with SessionLocal() as session:
+            entry = (
+                session.query(JournalEntry)
+                .filter(
+                    JournalEntry.date == entry_date,
+                    JournalEntry.tab_name == tab_name
+                )
+                .first()
+            )
+            if entry:
+                session.delete(entry)
+                session.commit()
 
     # JournalEvent
     def add_event(self, event_date: date, content: str):

@@ -6,29 +6,31 @@ class Core:
     def __init__(self):
         self.repo = Repository()
 
-    def add_entry(self, entry_date, tab_name: str, content: str):
-        """
-        Params:
-            entry_date: datetime
-            tab_name: str
-            content: str
-        """
-        
+    def add_entry(self, entry_date, tab_name: str, content: str): 
         self.repo.add_entry(entry_date, tab_name, content)
 
-    def get_entry(self, entry_date, tab_name: str):
-        """
-        Params:
-            entry_date: datetime
-            tab_name: str
-        """
-
-        result = self.repo.get_entry(entry_date, tab_name)
+    def get_entry_by_tab(self, entry_date, tab_name: str):
+        result = self.repo.get_entry_by_tab(entry_date, tab_name)
 
         if result != None:
-            return result.entry
+            return result
         else:
             return ""
 
+    def get_all_entries_by_date(self, entry_date):
+        result = self.repo.get_all_entries_by_date(entry_date)
+
+        if result != None:
+            return result
+        else:
+            return ""
+
+    def add_tab(self): pass # unused
+
+    def delete_tab(self, entry_date, tab_name: str):
+        self.repo.delete_entry(entry_date, tab_name)
+
     def _get_current_date(self):
         pass
+
+    def _get_tabs_in_date(self, entry_date): return self.repo.get_tabs(entry_date)
