@@ -2,16 +2,28 @@
 
 # Journal-Lite
 
-**A simple and lightweight journaling application built in Python.**
+**Journal-Lite** is a **lightweight Python journaling application** designed to be fast, simple, and focused on daily entries with useful productivity features.
 
-This project (*journal-lite*) provides a minimal, local journaling experience — ideal for daily notes, personal reflections, or quick text entry — with zero external dependencies beyond standard Python.
+Built purely in Python with no external heavy dependencies, Journal-Lite is ideal for anyone who wants a desktop journaling tool that’s easy to use and enjoyable to work with.
 
 ---
 
-## 🧩 Features
+## 🚀 Features
 
-- 📘 Create, view and list journal entries.
-- 🗂 Simple file-based structure for storing your entries.
-- 🚀 Lightweight and fast — no database required.
-- 🐍 Pure Python implementation.
-- 🛠 Works on any platform that supports Python.
+✨ **Tabbed Views**  
+Organize your journal with multiple tabs — perfect for separate topics, projects, or personal logs.
+
+📅 **Calendar Integration**  
+Navigate your entries by date using a built-in calendar view for quick access.
+
+🗓 **Events & Reminders**  
+Add events or reminders directly inside your journal to keep track of important moments.
+
+💾 **Autosaving**  
+Your entries are saved automatically as you type — no need to worry about losing progress.
+
+🧩 **Simple & Lightweight**  
+No database, no backend server — just pure Python with a clean and minimal structure.
+
+🐍 **Python-Only**  
+Developed entirely in Python for easy customization and cross-platform support.
