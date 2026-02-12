@@ -1,3 +1,5 @@
+<img width="1198" height="796" alt="overview" src="https://github.com/user-attachments/assets/e40090d8-212f-4090-af87-d0098e43c0a6" />
+
 # Journal-Lite
 
 **A simple and lightweight journaling application built in Python.**
