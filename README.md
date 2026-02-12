@@ -23,7 +23,7 @@ Add events or reminders directly inside your journal to keep track of important 
 Your entries are saved automatically as you type — no need to worry about losing progress.
 
 🧩 **Simple & Lightweight**  
-No database, no backend server — just pure Python with a clean and minimal structure.
+Pure Python with a clean and minimal structure.
 
 🐍 **Python-Only**  
 Developed entirely in Python for easy customization and cross-platform support.
