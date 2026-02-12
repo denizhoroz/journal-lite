@@ -9,6 +9,8 @@ from PySide6.QtWidgets import (
         QAbstractItemView,
         QCalendarWidget,
         QPushButton,
+        QCheckBox,
+        QSizePolicy,
 )
 
 from PySide6.QtGui import (
@@ -28,8 +30,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.core = core
 
-        # Constants
         self.DEFAULT_TAB = "General"
+        self.is_autosaving = True
 
         # Set window settings
         self.setWindowTitle("Journal Lite")
@@ -91,9 +93,14 @@ class MainWindow(QMainWindow):
         self.entry_edit = QPlainTextEdit()
         self.entry_edit.setPlaceholderText("Write anything here...")
         entry_layout.addWidget(self.entry_edit)
-
+        push_entry_area = QHBoxLayout()
         self.push_entry_button = QPushButton("Push Entry")
-        entry_layout.addWidget(self.push_entry_button)
+        self.push_entry_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        push_entry_area.addWidget(self.push_entry_button)
+        self.autosave_option = QCheckBox("Autosave")
+        
+        push_entry_area.addWidget(self.autosave_option)
+        entry_layout.addLayout(push_entry_area)
         
         # Add layout 
         entry_area.setLayout(entry_layout)
@@ -131,6 +138,8 @@ class MainWindow(QMainWindow):
 
         ## Set initial UI appearance
         self.current_day_label.setText(self.calendar.selectedDate().toString())
+        self.push_entry_button.setEnabled(False)
+        self.autosave_option.setChecked(True)
 
     def _apply_styling(self):
         stylesheet = self._load_stylesheet("src/ui/style.qss")
@@ -143,13 +152,8 @@ class MainWindow(QMainWindow):
     def _connect_signals(self):
         self.push_entry_button.clicked.connect(self._on_entry_button_clicked)
         self.calendar.selectionChanged.connect(self._on_date_changed)
-    
-    def _on_entry_button_clicked(self):
-        selected_date = self._get_calendar_date()
-        selected_tab = self.tabs.currentItem().text()
-        entry_content = self.entry_edit.toPlainText()
-
-        self.core.add_entry(selected_date, selected_tab, entry_content)
+        self.autosave_option.toggled.connect(self._on_autosave_changed)
+        self.entry_edit.textChanged.connect(self._on_entry_edit_changed)
 
     def _on_date_changed(self):
         # Change date label
@@ -159,4 +163,18 @@ class MainWindow(QMainWindow):
         current_entry = self.core.get_entry(self._get_calendar_date(), self.DEFAULT_TAB)
         self.entry_edit.setPlainText(current_entry)
 
+    def _on_entry_button_clicked(self): self.core.add_entry(*self._get_entry())
+
     def _get_calendar_date(self): return self.calendar.selectedDate().toPython()
+    def _get_selected_tab(self): return self.tabs.currentItem().text()
+    def _get_entry_content(self): return self.entry_edit.toPlainText()
+    def _get_entry(self): return (self._get_calendar_date(), self._get_selected_tab(), self._get_entry_content())
+    
+    def _on_autosave_changed(self, checked):
+        self.is_autosaving = checked
+        self.push_entry_button.setEnabled(not self.is_autosaving)
+
+    def _on_entry_edit_changed(self): 
+        if not self.is_autosaving: return
+        print("Autosaving is not working right this moment") # testing
+        # self.core.add_entry(*self._get_entry())
