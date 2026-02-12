@@ -14,4 +14,4 @@ class JournalEvent(Base):
 
     id = Column(Integer, primary_key=True)
     date = Column(Date, nullable=False)
-    events = Column(Text, nullable=False)
+    event = Column(Text, nullable=False)

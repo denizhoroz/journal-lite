@@ -52,7 +52,7 @@ class AddItem(QDialog):
         return self.text
 
 class RemoveItem(QMessageBox):
-    def __init__(self, message="Do you want to delete the selected tab?"):
+    def __init__(self, message="Do you want to delete the selected item?"):
         super().__init__()
         self.setWindowTitle("Remove Item")
         self.setText(message)

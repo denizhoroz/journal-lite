@@ -73,14 +73,28 @@ class Repository:
                 session.commit()
 
     # JournalEvent
-    def add_event(self, event_date: date, content: str):
+    def add_event(self, event_date: date, event: str):
         with SessionLocal() as session:
             event = JournalEvent(
                 date=event_date,
-                events=content
+                event=event
             )
             session.add(event)
             session.commit()
+
+    def delete_event(self, event_date: date, event: str):
+        with SessionLocal() as session:
+            entry = (
+                session.query(JournalEvent)
+                .filter(
+                    JournalEvent.date == event_date,
+                    JournalEvent.event == event
+                )
+                .first()
+            )
+            if entry:
+                session.delete(entry)
+                session.commit()
 
     def get_events_by_date(self, event_date: date):
         with SessionLocal() as session:

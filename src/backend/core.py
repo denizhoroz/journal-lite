@@ -34,3 +34,11 @@ class Core:
         pass
 
     def _get_tabs_in_date(self, entry_date): return self.repo.get_tabs(entry_date)
+
+    def add_event(self, event_date, event):
+        self.repo.add_event(event_date, event)
+
+    def delete_event(self, event_date, event):
+        self.repo.delete_event(event_date, event)
+
+    def get_events_by_date(self, event_date): return self.repo.get_events_by_date(event_date)
