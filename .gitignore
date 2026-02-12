@@ -1,3 +1,2 @@
-# Ignore unnecessary folders
+# Ignore virtual environment
 venv/
-.concept/
