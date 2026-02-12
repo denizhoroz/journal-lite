@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
         
         # Set area config
         nav_area = QWidget()
-        nav_area.setFixedWidth(150)
+        nav_area.setFixedWidth(160)
         nav_layout = QVBoxLayout()
         
         # Add widgets
@@ -72,12 +72,12 @@ class MainWindow(QMainWindow):
         self.tabs.setCurrentRow(0)
         nav_layout.addWidget(self.tabs)
 
-        button_area = QHBoxLayout()
+        tab_button_area = QHBoxLayout()
         self.add_tab_button = QPushButton("Add Tab")
-        button_area.addWidget(self.add_tab_button)
+        tab_button_area.addWidget(self.add_tab_button)
         self.del_tab_button = QPushButton("Delete Tab")
-        button_area.addWidget(self.del_tab_button)
-        nav_layout.addLayout(button_area)
+        tab_button_area.addWidget(self.del_tab_button)
+        nav_layout.addLayout(tab_button_area)
         
         # Add layout
         nav_area.setLayout(nav_layout)
@@ -146,6 +146,8 @@ class MainWindow(QMainWindow):
         self.push_entry_button.setEnabled(False)
         self.autosave_option.setChecked(True)
         self._on_date_changed()
+        self.calendar.setVerticalHeaderFormat(QCalendarWidget.VerticalHeaderFormat.NoVerticalHeader)
+        self.calendar.setHorizontalHeaderFormat(QCalendarWidget.HorizontalHeaderFormat.NoHorizontalHeader)
 
     def _apply_styling(self):
         stylesheet = self._load_stylesheet("src/ui/style.qss")

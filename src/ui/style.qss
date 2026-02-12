@@ -1,0 +1,88 @@
+QLabel {
+    font-size: 24px;
+    font-family: "8bitoperator JVE", "Helvatica";
+}
+
+QMainWindow {
+    background-color: #2b2b2b;
+}
+
+QLabel {
+    color: white;
+}
+
+QListWidget {
+    background-color: #2b2b2b;
+    color: white;
+    font-size: 16px;
+    border: 1px solid #555;
+    font-family: "8bitoperator JVE", "Helvatica";
+}
+
+QListWidget::item:selected {
+    background-color: white;
+    color: #2b2b2b;
+}
+
+QPlainTextEdit {
+    background-color: #2b2b2b;
+    color: white;
+    border: 1px solid #555;
+    font-size: 24px;
+    font-family: "8bitoperator JVE", "Helvatica";
+}
+
+QPushButton {
+    background-color: #555;
+    color: white;
+    border-radius: 4px;
+    padding: 5px;
+    font-size: 16px;
+    font-family: "8bitoperator JVE", "Helvatica";
+}
+
+QPushButton:hover {
+    background-color: #777;
+}
+
+QPushButton:disabled {
+    background-color: #222;   /* gray out disabled button */
+    color: #666;              /* darker text for disabled */
+}
+
+QCheckBox {
+    color: white;
+    font-size: 16px;
+    font-family: "8bitoperator JVE", "Helvatica";
+}
+
+QCalendarWidget {
+    font-size: 16px;
+    font-family: "8bitoperator JVE", "Helvatica";
+}
+
+QCalendarWidget QTableView QHeaderView::section {
+    background-color: #2b2b2b; 
+    color: white;
+    font-weight: bold;
+    border: none;
+}
+
+QCalendarWidget QTableView {
+    background-color: #2b2b2b;  
+    color: white;
+    selection-background-color: #808080;  
+    selection-color: white;               
+}
+
+QCalendarWidget QTableView::item:selected {
+    background-color: #2b2b2b;
+    color: white;
+}
+
+QCalendarWidget QComboBox QAbstractItemView {
+    background-color: white;  
+    color: #2b2b2b;            
+    selection-background-color: #a9a9a9; 
+    selection-color: #ffffff;
+}
