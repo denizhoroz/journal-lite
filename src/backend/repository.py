@@ -5,23 +5,40 @@ from .models import JournalEntry, JournalEvent
 class Repository:
 
     # JournalEntry
-    def add_entry(self, entry_date: date, tab_name: str, content: str):
+    def add_entry(self, entry_date, tab_name: str, content: str):
         with SessionLocal() as session:
-            entry = JournalEntry(
-                date=entry_date,
-                tab_name=tab_name,
-                entry=content
+            existing = (
+                session.query(JournalEntry)
+                .filter(
+                    JournalEntry.date == entry_date,
+                    JournalEntry.tab_name == tab_name
+                )
+                .first()
             )
-            session.add(entry)
+
+            if existing:
+                # Overwrite content
+                existing.entry = content
+            else:
+                # Create new entry
+                entry = JournalEntry(
+                    date=entry_date,
+                    tab_name=tab_name,
+                    entry=content
+                )
+                session.add(entry)
+
             session.commit()
 
-    def get_entry(self, entry_date: date, tab_name: str):
+    def get_entry(self, entry_date, tab_name: str):
         with SessionLocal() as session:
             return (
                 session.query(JournalEntry)
-                .filter((JournalEntry.date == entry_date) & 
-                        (JournalEntry.tab_name == tab_name))
-                .all()
+                .filter(
+                    JournalEntry.date == entry_date,
+                    JournalEntry.tab_name == tab_name
+                )
+                .first()
             )
 
     def delete_entry(self, entry_id: int):

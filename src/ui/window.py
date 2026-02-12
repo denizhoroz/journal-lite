@@ -8,6 +8,7 @@ from PySide6.QtWidgets import (
         QListWidget,
         QAbstractItemView,
         QCalendarWidget,
+        QPushButton,
 )
 
 from PySide6.QtGui import (
@@ -20,9 +21,15 @@ from PySide6.QtCore import (
 )
 
 class MainWindow(QMainWindow):
+
+    
+
     def __init__(self, core):
         super().__init__()
         self.core = core
+
+        # Constants
+        self.DEFAULT_TAB = "General"
 
         # Set window settings
         self.setWindowTitle("Journal Lite")
@@ -54,8 +61,16 @@ class MainWindow(QMainWindow):
         nav_layout.addWidget(self.title)
 
         self.tabs = QListWidget()
-        self.tabs.addItems(["Item 1", "Item 2", "Item 3"]) # testing
+        self.tabs.addItems(["General"])
+        self.tabs.setCurrentRow(0)
         nav_layout.addWidget(self.tabs)
+
+        button_area = QHBoxLayout()
+        self.add_tab_button = QPushButton("Add Tab")
+        button_area.addWidget(self.add_tab_button)
+        self.del_tab_button = QPushButton("Delete Tab")
+        button_area.addWidget(self.del_tab_button)
+        nav_layout.addLayout(button_area)
         
         # Add layout
         nav_area.setLayout(nav_layout)
@@ -69,13 +84,16 @@ class MainWindow(QMainWindow):
         entry_layout = QVBoxLayout()
 
         # Add widgets
-        self.current_day = QLabel() 
-        self.current_day.setText("11 February 2026") # testing
-        entry_layout.addWidget(self.current_day)
+        self.current_day_label = QLabel() 
+        # self.current_day.setText("11 February 2026") # testing
+        entry_layout.addWidget(self.current_day_label)
 
         self.entry_edit = QPlainTextEdit()
-        self.entry_edit.setPlaceholderText("Write anything here...") # testing
+        self.entry_edit.setPlaceholderText("Write anything here...")
         entry_layout.addWidget(self.entry_edit)
+
+        self.push_entry_button = QPushButton("Push Entry")
+        entry_layout.addWidget(self.push_entry_button)
         
         # Add layout 
         entry_area.setLayout(entry_layout)
@@ -91,17 +109,28 @@ class MainWindow(QMainWindow):
         # Add widgets
         self.calendar = QCalendarWidget()
         self.calendar.setFixedHeight(300)
+        self.calendar.setSelectedDate(QDate.currentDate())
         time_layout.addWidget(self.calendar)
 
         self.events = QListWidget()
-        self.events.addItems(["Event 1", "Event 2", "Event 3"]) # testing
+        # self.events.addItems(["Event 1", "Event 2", "Event 3"]) # testing
         time_layout.addWidget(self.events)
+
+        event_button_area = QHBoxLayout()
+        self.add_event_button = QPushButton("Add Event")
+        event_button_area.addWidget(self.add_event_button)
+        self.del_event_button = QPushButton("Delete Event")
+        event_button_area.addWidget(self.del_event_button)
+        time_layout.addLayout(event_button_area)
 
         # Add layout 
         time_area.setLayout(time_layout)
         main_layout.addWidget(time_area)
 
         ####
+
+        ## Set initial UI appearance
+        self.current_day_label.setText(self.calendar.selectedDate().toString())
 
     def _apply_styling(self):
         stylesheet = self._load_stylesheet("src/ui/style.qss")
@@ -112,6 +141,22 @@ class MainWindow(QMainWindow):
             return f.read()
 
     def _connect_signals(self):
-        pass
+        self.push_entry_button.clicked.connect(self._on_entry_button_clicked)
+        self.calendar.selectionChanged.connect(self._on_date_changed)
     
+    def _on_entry_button_clicked(self):
+        selected_date = self._get_calendar_date()
+        selected_tab = self.tabs.currentItem().text()
+        entry_content = self.entry_edit.toPlainText()
 
+        self.core.add_entry(selected_date, selected_tab, entry_content)
+
+    def _on_date_changed(self):
+        # Change date label
+        self.current_day_label.setText(self.calendar.selectedDate().toString())
+
+        # Change date entry
+        current_entry = self.core.get_entry(self._get_calendar_date(), self.DEFAULT_TAB)
+        self.entry_edit.setPlainText(current_entry)
+
+    def _get_calendar_date(self): return self.calendar.selectedDate().toPython()

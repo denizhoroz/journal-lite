@@ -1,2 +1,6 @@
+# Ignore unnecessary folders
 venv/
 .concept/
+
+# Ignore local database
+src/backend/database/journal.db
