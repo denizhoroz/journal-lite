@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtGui import (
     Qt,
     QFont,
+    QFontDatabase,
 )
 
 from PySide6.QtCore import (
@@ -166,6 +167,10 @@ class MainWindow(QMainWindow):
         self.calendar.setHorizontalHeaderFormat(QCalendarWidget.HorizontalHeaderFormat.NoHorizontalHeader)
 
     def _apply_styling(self):
+        # Load custom font
+        font_id = QFontDatabase.addApplicationFont("assets/fonts/8bitoperator_jve.ttf")
+        font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+
         stylesheet = self._load_stylesheet("src/ui/style.qss")
         self.setStyleSheet(stylesheet)
 
