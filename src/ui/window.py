@@ -18,6 +18,7 @@ from PySide6.QtGui import (
     Qt,
     QFont,
     QFontDatabase,
+    QIcon,
 )
 
 from PySide6.QtCore import (
@@ -44,6 +45,7 @@ class MainWindow(QMainWindow):
         # Set window settings
         self.setWindowTitle("Journal Lite")
         self.resize(1200, 800)
+        self.setWindowIcon(QIcon("assets/icons/jlicon.ico"))
 
         # Initialize UI
         self._build_ui()
