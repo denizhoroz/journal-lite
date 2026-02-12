@@ -22,6 +22,8 @@ from PySide6.QtCore import (
     QDate,
 )
 
+from src.ui.popup_window import RemoveItem, DeleteItemWarning
+
 class MainWindow(QMainWindow):
 
     
@@ -63,7 +65,7 @@ class MainWindow(QMainWindow):
         nav_layout.addWidget(self.title)
 
         self.tabs = QListWidget()
-        self.tabs.addItems(["General"])
+        self.tabs.addItems(["General", "another tab"])
         self.tabs.setCurrentRow(0)
         nav_layout.addWidget(self.tabs)
 
@@ -154,6 +156,8 @@ class MainWindow(QMainWindow):
         self.calendar.selectionChanged.connect(self._on_date_changed)
         self.autosave_option.toggled.connect(self._on_autosave_changed)
         self.entry_edit.textChanged.connect(self._on_entry_edit_changed)
+        self.add_tab_button.clicked.connect(self._on_add_tab_clicked)
+        self.del_tab_button.clicked.connect(self._on_del_tab_clicked)
 
     def _on_date_changed(self):
         # Change date label
@@ -164,7 +168,6 @@ class MainWindow(QMainWindow):
         self.entry_edit.setPlainText(current_entry)
 
     def _on_entry_button_clicked(self): self.core.add_entry(*self._get_entry())
-
     def _get_calendar_date(self): return self.calendar.selectedDate().toPython()
     def _get_selected_tab(self): return self.tabs.currentItem().text()
     def _get_entry_content(self): return self.entry_edit.toPlainText()
@@ -178,3 +181,23 @@ class MainWindow(QMainWindow):
         if not self.is_autosaving: return
         print("Autosaving is not working right this moment") # testing
         # self.core.add_entry(*self._get_entry())
+
+    def _on_add_tab_clicked(self):
+        pass
+
+    def _on_del_tab_clicked(self):
+        selected_item = self.tabs.currentItem()
+
+        if selected_item.text().lower() == "general":
+            popup = DeleteItemWarning()
+            popup.exec()
+        else:
+            popup = RemoveItem()
+            result = popup.exec_()
+            if result:
+                self._remove_item(self.tabs, selected_item)
+            else:
+                return
+
+    def _remove_item(self, list, selected_item):
+        list.takeItem(self.tabs.row(selected_item))
