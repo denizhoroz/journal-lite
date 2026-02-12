@@ -174,13 +174,6 @@ class MainWindow(QMainWindow):
         # Change date label
         self.current_day_label.setText(selected_date)
 
-        # Change date entry
-        # current_entry = self.core.get_entry_by_tab(self._get_calendar_date(), self.DEFAULT_TAB)
-        # if type(current_entry) == str:
-        #     self.entry_edit.setPlainText(current_entry)
-        # else:
-        #     self.entry_edit.setPlainText(current_entry.entry)
-
         # Update tabs
         self.tabs.clear()
         all_entries = self.core.get_all_entries_by_date(self._get_calendar_date())
@@ -220,6 +213,7 @@ class MainWindow(QMainWindow):
         if result:
             tab_name = result
             self._add_item(self.tabs, tab_name)
+            self.core.add_entry(self._get_calendar_date(), tab_name, "")
         else:
             return
 

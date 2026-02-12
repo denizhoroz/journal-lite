@@ -28,7 +28,7 @@ class Core:
     def add_tab(self): pass # unused
 
     def delete_tab(self, entry_date, tab_name: str):
-        self.repo.delete_entry(entry_date, tab_name)
+        self.repo.delete_tab(entry_date, tab_name)
 
     def _get_current_date(self):
         pass
