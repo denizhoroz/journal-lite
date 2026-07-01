@@ -11,32 +11,19 @@ Built purely in Python with no external heavy dependencies, Journal-Lite is idea
 ## 🚀 Features
 
 ✨ **Tabbed Views**  
-Organize your journal with multiple tabs — perfect for separate topics, projects, or personal logs.
+Organize your journal with multiple tabs.
 
 📅 **Calendar Integration**  
 Navigate your entries by date using a built-in calendar view for quick access.
 
 🗓 **Events & Reminders**  
-Add events or reminders directly inside your journal to keep track of important moments.
+Add events or reminders directly inside your journal to keep track of important moments (per each day).
 
 💾 **Autosaving**  
-Your entries are saved automatically as you type — no need to worry about losing progress.
-
-🧩 **Simple & Lightweight**  
-Pure Python with a clean and minimal structure.
-
-🐍 **Python-Only**  
-Developed entirely in Python for easy customization and cross-platform support.
+Your entries are saved automatically as you type.
 
 ## ⬇️ Download
 
 You can download the latest ready-to-use version of Journal-Lite from the **Releases** section of this repository.
-
-👉 Go to:  
-**GitHub → journal-lite → Releases**
-
-Download the latest version for your system and run the executable.
-
-If you prefer running from source, follow the installation steps below.
 
 ---
